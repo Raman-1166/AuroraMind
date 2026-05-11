@@ -5,7 +5,8 @@ import axios from 'axios';
  * Handles all HTTP requests to the Spring Boot server.
  */
 
-const API_BASE_URL = 'http://localhost:7070/api';
+// Reads from .env.local in development, or Vercel environment variable in production
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:7070/api';
 
 // Create Axios instance — timeout matches backend (3 minutes for slow local models)
 const apiClient = axios.create({

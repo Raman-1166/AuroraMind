@@ -6,9 +6,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * CORS configuration to allow frontend communication.
- * Allows React frontend running on localhost:5173 (Vite dev server)
- * to make requests to this backend.
+ * CORS configuration.
+ * Allows the React frontend (local dev + Vercel production) to call the backend.
  */
 @Configuration
 public class CorsConfig {
@@ -19,9 +18,11 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins(
-                                "http://localhost:5173",  // Vite dev server
-                                "http://localhost:3000"   // Alternative React dev port
+                        .allowedOriginPatterns(
+                                "http://localhost:*",          // local dev (any port)
+                                "https://*.vercel.app",        // Vercel deployments
+                                "https://*.ngrok-free.app",    // ngrok tunnels
+                                "https://*.ngrok.io"           // ngrok legacy
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
